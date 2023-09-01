@@ -496,6 +496,9 @@ def job():
         full_log = ""
         full_log_t = ""
         LIMIT_NUMBER = int(read_config())
+        username_limit = re.search(r"_l\d+$", email)
+        if username_limit is not None:
+            LIMIT_NUMBER = int(username_limit.group(0)[2:])
         if email in SPECIAL_LIMIT_USERS:
             LIMIT_NUMBER = int(SPECIAL_LIMIT[email])
         if len(user_ip) > LIMIT_NUMBER:
