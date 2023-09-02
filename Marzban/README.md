@@ -37,10 +37,11 @@ cd Marzban
 
 Then you need to enter your domain or server IP in the [v2iplimit_config.json](v2iplimit_config.json) file
 
-To run the program You have 2 options :
+To run the program You have 3 options :
 
 1. [Using the screen](#screen) (recommended) with this [Video guide](#video-tutorial)
 2. [Using CronJob](#cronjob)
+3. [Using Systemd](#systemd) (easiest)
 
 <hr>
 
@@ -135,6 +136,28 @@ This way works if you have cloned the project in the <b>root</b>, otherwise you 
 every time the crontab is working, it adds a logs to this file <code>crontab_log.log</code><sub>(in this path V2IpLimit/Marzban/)</sub> so with this you can make sure your scheduling is working
 
 <hr>
+
+### Systemd
+Run the following commands and let them do the magic:
+```bash
+cat > /etc/systemd/system/v2iplimit.service << EOF
+[Unit]
+Description=iplimit
+Documentation=https://example.com
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=$PWD
+ExecStart=/usr/bin/python3 v2_ip_limit.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl enable --now v2iplimit
+```
 
 ### Tips on location
 
